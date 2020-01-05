@@ -12,8 +12,9 @@ import java.util.Set;
  */
 public class ConvexObject {
 
-    private Polygon convexPolygon;
-    private Polygon triangle;
+    //Polygon 多边形类
+    private Polygon convexPolygon;//凸多边形
+    private Polygon triangle;//三角形
 
     public ConvexObject(Polygon convexPolygon) {
         this.convexPolygon = convexPolygon;
@@ -22,13 +23,13 @@ public class ConvexObject {
     public ConvexObject() {
     }
 
-    public Point CENTER_POINT;
-    public Point FIRST_POINT;
-    public Point SECOND_POINT;
-    public Point CONVEX_POINT;
+    public Point CENTER_POINT;//中心点
+    public Point FIRST_POINT;//第一个点
+    public Point SECOND_POINT;//第二个点
+    public Point CONVEX_POINT;//凸起点
     //-------------
-    public Point OTHER_POINT1;
-    public Point OTHER_POINT2;
+    public Point OTHER_POINT1;//其他点1
+    public Point OTHER_POINT2;//其他点2
     public Set<Point2D> CONVEX_INTERSECT_POINTS;
     public Set<Line2D> CONVEX_INTERSECT_LINES;
     public Polygon DIRECTION_POLYGON;

@@ -24,7 +24,7 @@ import java.util.List;
  * Time: 2:05 PM
  * Edited by Sajjad
  */
-public class FireCluster extends Cluster {
+public class FireCluster extends Cluster {//火的区域划分
 
     private static final int CLUSTER_ENERGY_COEFFICIENT = 50;//70;
     private static final int CLUSTER_ENERGY_SECOND_COEFFICIENT = 20;
@@ -38,7 +38,7 @@ public class FireCluster extends Cluster {
     private double clusterEnergy;
     private double clusterVolume;
     private double clusterVolumeRatio;
-    private List<MrlBuilding> highValueBuildings = new ArrayList<MrlBuilding>();
+    private List<MrlBuilding> highValueBuildings = new ArrayList<>();
     private Condition condition;
     private Set<MrlBuilding> buildings;
 
@@ -126,6 +126,7 @@ public class FireCluster extends Cluster {
 
     /**
      * any building with temperature bigger than zero should be considered in convex hull
+     * 温度高于0的建筑物都是凸包的一部分
      */
     @Override
     public void updateConvexHull() {
@@ -219,19 +220,19 @@ public class FireCluster extends Cluster {
         double worldArea = (world.getMapHeight() / 1000) * (world.getMapWidth() / 1000);
         double percent = fireClusterArea / worldArea;
         if (percent > 0.80) {
-            setCondition(Condition.unControllable);
+            setCondition(Condition.unControllable);//不可控的火势
             return;
         }
         if (percent > 0.15) {
-            setCondition(Condition.edgeControllable);
+            setCondition(Condition.edgeControllable);//边界可控制的火势
             return;
         }
         if (percent > 0.04) {
-            setCondition(Condition.largeControllable);
+            setCondition(Condition.largeControllable);//可控制的大火
             return;
         }
         if (percent >= 0.00) {
-            setCondition(Condition.smallControllable);
+            setCondition(Condition.smallControllable);//可控制的小火
         }
     }
 
