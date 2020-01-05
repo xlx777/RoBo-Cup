@@ -39,7 +39,7 @@ public class FireCluster extends Cluster {//火的区域划分
     private double clusterVolume;
     private double clusterVolumeRatio;
     private List<MrlBuilding> highValueBuildings = new ArrayList<>();
-    private Condition condition;
+    private Condition condition;//火可不可控的等级划分
     private Set<MrlBuilding> buildings;
 
     public FireCluster(MrlWorldHelper world, Collection<Cluster> civilianClusters) {

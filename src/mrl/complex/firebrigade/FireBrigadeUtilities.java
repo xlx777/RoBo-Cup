@@ -44,7 +44,7 @@ public class FireBrigadeUtilities {
 
     }
 
-    private static double calcEffectiveWaterPerCycle(MrlFireBrigadeWorld world, Point targetPoint) {
+    private static double calcEffectiveWaterPerCycle(MrlFireBrigadeWorld world, Point targetPoint) {//计算每个周期水的功效
         int waterQuantity = world.getMaxWater();
         int maxPower = world.getMaxPower();
         int refillRate = world.getWaterRefillRate();
@@ -116,7 +116,8 @@ public class FireBrigadeUtilities {
     }
 
     public static Set<MrlBuilding> getBuildingsInMyExtinguishRange(MrlFireBrigadeWorld world) {
-        Set<MrlBuilding> result = new FastSet<MrlBuilding>();
+        Set<MrlBuilding> result = new FastSet<>();
+
         int maxExtinguishDistance = world.getMaxExtinguishDistance() - EXTINGUISH_DISTANCE_THRESHOLD;
         for (StandardEntity next : world.getObjectsInRange(world.getAgentInfo().getID(), (int) (maxExtinguishDistance * 1.5))) {
             if (next instanceof Building) {
@@ -130,7 +131,7 @@ public class FireBrigadeUtilities {
     }
 
     public static List<MrlBuilding> findBuildingsInExtinguishRangeOf(MrlWorldHelper worldHelper, WorldInfo worldInfo,ScenarioInfo scenarioInfo, EntityID source) {
-        List<MrlBuilding> result = new ArrayList<MrlBuilding>();
+        List<MrlBuilding> result = new ArrayList<>();
         int maxExtinguishDistance = scenarioInfo.getFireExtinguishMaxDistance()- EXTINGUISH_DISTANCE_THRESHOLD;
         for (StandardEntity next : worldInfo.getObjectsInRange(source, (int) (maxExtinguishDistance * 1.5))) {
             if (next instanceof Building) {
@@ -220,7 +221,7 @@ public class FireBrigadeUtilities {
             outPut.add(inputList.remove(0));
         }*/
 
-        SortedSet<Pair<EntityID, Double>> outPut = new TreeSet<Pair<EntityID, Double>>(comparator);
+        SortedSet<Pair<EntityID, Double>> outPut = new TreeSet<>(comparator);
         Pair<EntityID, Double> temp;
         for (int i = 0; i < number; i++) {
             if (!inputList.isEmpty()) {
