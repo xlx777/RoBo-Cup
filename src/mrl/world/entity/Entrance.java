@@ -13,10 +13,10 @@ import java.util.List;
  * Date: May 20, 2010
  * Time: 1:19:23 AM
  */
-public class Entrance {
-    Road neighbour;
-    List<Building> ownerBuildings;
-    EntityID id;
+public class Entrance {//入口
+    Road neighbour;//入口所属的道路
+    List<Building> ownerBuildings;//使用该入口的建筑物（大概）
+    EntityID id;//入口对应道路的id
 
     public Entrance(Road neighbour, List<Building> ownerBuildings) {
         this.neighbour = neighbour;

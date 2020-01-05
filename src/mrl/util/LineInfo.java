@@ -9,10 +9,10 @@ import rescuecore2.standard.entities.StandardEntity;
  * Date: 2/13/13
  * Time: 6:19 PM
  */
-public class LineInfo {
-    private Line2D line;
-    private StandardEntity entity;
-    private boolean blocking;
+public class LineInfo {//道路信息
+    private Line2D line;//底层中的2D的线
+    private StandardEntity entity;//实体
+    private boolean blocking;//是否被阻塞
 
     public LineInfo(Line2D line, StandardEntity entity, boolean blocking) {
         this.line = line;

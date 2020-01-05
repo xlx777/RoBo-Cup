@@ -24,6 +24,7 @@ public class PolygonUtil {
      * @param scale         : Is the scale coefficient, It actually multiplies to the points and makes the new shape
      * @return : returns the scaled polygon which, its center is on the center of the last polygon
      */
+    //按scale的比例缩放多边形（未被使用）
     public static Polygon scalePolygon(Polygon sourcePolygon, double scale) {
         Polygon scaledPolygon;
 
@@ -52,12 +53,12 @@ public class PolygonUtil {
 
     /**
      * This function changes the position of the polygon which is scaled by the "scalePolygon" function. If we don't use this function the scaled polygon does not appear in the right place.
-     *
+     *此函数更改通过“ scalePolygon”函数缩放的多边形的位置。如果我们不使用此功能，则缩放的多边形不会出现在正确的位置
      * @param scaled: is the scaled polygon of our source (notice that it is not in the right place)
      * @param source: is the source polygon, (that is not scaled) we want it to determine the exact position of our scaled polygon
      * @return: returns the new polygon that is in the right place (its center is exactly on the old center)
      */
-    private static Polygon reAllocatePolygon(Polygon scaled, Polygon source) {
+    private static Polygon reAllocatePolygon(Polygon scaled, Polygon source) {//与以上函数配套使用
         if (source == null || scaled == null || source.npoints == 0 || scaled.npoints == 0)
             return null;
         Polygon reAllocated;
@@ -105,6 +106,7 @@ public class PolygonUtil {
      * @param line
      * @return
      */
+    //通过line2D将多边形拆分为多边形,通过一条线将一个多边形化成两个
     public static Pair<Polygon, Polygon> split(Polygon polygon, rescuecore2.misc.geometry.Line2D line) {
         int index1 = -1, index2 = -1, count = polygon.npoints;
         int newXs[] = new int[count + 2];
@@ -158,7 +160,7 @@ public class PolygonUtil {
         return split(Util.getPolygon(polygonApexes), line);
     }
 
-    public static Polygon retainPolygon(Polygon polygon1, Polygon polygon2) {
+    public static Polygon retainPolygon(Polygon polygon1, Polygon polygon2) {//对多边形与
         double xs1[] = new double[polygon1.npoints];
         double ys1[] = new double[polygon1.npoints];
         double xs2[] = new double[polygon2.npoints];
@@ -187,7 +189,7 @@ public class PolygonUtil {
         return new Polygon(exclusiveXs, exclusiveYs, count);
     }
 
-    public static Polygon union(Polygon polygon1, Polygon polygon2) {
+    public static Polygon union(Polygon polygon1, Polygon polygon2) {//对多边形或
         double xs1[] = new double[polygon1.npoints];
         double ys1[] = new double[polygon1.npoints];
         double xs2[] = new double[polygon2.npoints];
@@ -216,7 +218,7 @@ public class PolygonUtil {
         return new Polygon(unionXs, unionYs, count);
     }
 
-    public static double distanceBetween(Polygon polygon1, Polygon polygon2) {
+    public static double distanceBetween(Polygon polygon1, Polygon polygon2) {//之间距离
         return distanceBetween(polygon1, polygon2, Double.MAX_VALUE);
     }
 

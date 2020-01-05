@@ -24,6 +24,7 @@ import java.util.Set;
 
 /**
  * A preprocessor to determine each area is visible from which areas and which areas are observable from specific area
+ 用于确定每个区域的预处理器从特定区域可见，从特定区域可观察到哪些区域
  */
 public class ProcessAreaVisibility {
 

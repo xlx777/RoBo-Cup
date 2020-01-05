@@ -5,7 +5,7 @@ import rescuecore2.standard.entities.StandardEntity;
 
 import java.util.Comparator;
 
-public class DistanceSorter implements Comparator<StandardEntity> {
+public class DistanceSorter implements Comparator<StandardEntity> {//比较器 用于比较距离标准化实体a与b离reference的距离
     private StandardEntity reference;
     private WorldInfo worldInfo;
 
