@@ -30,15 +30,15 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Line of sight perception.
+ * Line of sight perception.视线感知
  */
-public class MrlLineOfSightPerception {
+public class MrlLineOfSightPerception {//这个类可以获取可以看见的信息（但是这个类并没有被使用）
     private static org.apache.log4j.Logger Logger = org.apache.log4j.Logger.getLogger(MrlLineOfSightPerception.class);
 
-    private static final int DEFAULT_VIEW_DISTANCE = 30000;
-    private static final int DEFAULT_HP_PRECISION = 1000;
-    private static final int DEFAULT_DAMAGE_PRECISION = 100;
-    private static final int DEFAULT_RAY_COUNT = 72;
+    private static final int DEFAULT_VIEW_DISTANCE = 30000;//默认视图距离
+    private static final int DEFAULT_HP_PRECISION = 1000;//默认HP精度
+    private static final int DEFAULT_DAMAGE_PRECISION = 100;//默认损坏精度
+    private static final int DEFAULT_RAY_COUNT = 72;//視綫默认射线數目
 
     private static final String VIEW_DISTANCE_KEY = "perception.los.max-distance";
     private static final String RAY_COUNT_KEY = "perception.los.ray-count";
@@ -47,13 +47,13 @@ public class MrlLineOfSightPerception {
 
 //    private static final IntersectionSorter INTERSECTION_SORTER = new IntersectionSorter();
 
-    private int rayCount;
+    private int rayCount;//计数
     private List<MrlRay> rays = new ArrayList<>();
 
 //    private Config config;
 
-    private WorldInfo world;
-    private ScenarioInfo seScenarioInfo;
+    private WorldInfo world;//世界信息
+    private ScenarioInfo seScenarioInfo;//场景信息
 
 
     /**
@@ -63,7 +63,6 @@ public class MrlLineOfSightPerception {
         this.world = worldInfo;
         this.seScenarioInfo=scenarioInfo;
         this.rayCount = 36;
-
     }
 
 
@@ -72,7 +71,7 @@ public class MrlLineOfSightPerception {
         return "Line of sight perception";
     }
 
-    public Set<EntityID> getVisibleAreas(EntityID areaID) {
+    public Set<EntityID> getVisibleAreas(EntityID areaID) {//从区域中获取可以看见的实体
         Area area = (Area) world.getEntity(areaID);
         Set<EntityID> result = new HashSet<>();
         // Look for objects within range

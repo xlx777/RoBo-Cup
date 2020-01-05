@@ -20,16 +20,16 @@ import java.util.List;
  * Date: 5/18/12
  * Time: 11:44 AM
  */
-public class MrlBlockade {
-    private Polygon blockade;
-    private Blockade parent;
-    private MrlRoad position;
-    private Polygon transformedPolygon;
-    private List<MrlEdge> blockedEdges;
-    private int repairCost;
-    private List<Point2D> apexPoints;
-    private int groundArea;
-    private BlockadeValue value;
+public class MrlBlockade {//封装的路障类
+    private Polygon blockade;//用于表示形状
+    private Blockade parent;//底层的路障类
+    private MrlRoad position;//路障处于的道路
+    private Polygon transformedPolygon;//转变的多边形
+    private List<MrlEdge> blockedEdges;//构成路障的边缘
+    private int repairCost;//清理的消耗
+    private List<Point2D> apexPoints;//顶点
+    private int groundArea;//地面面积
+    private BlockadeValue value;//路障的价值
 
     public MrlBlockade(MrlRoad road, Blockade blockade, Polygon polygon) {
         initialize(road, blockade, polygon);

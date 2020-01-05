@@ -34,27 +34,27 @@ import java.util.stream.Collectors;
  */
 public class Util {
 
-
+    //判断是否相交
     public static boolean intersects(rescuecore2.misc.geometry.Line2D lineSegment1, rescuecore2.misc.geometry.Line2D lineSegment2) {
         lineSegment1.getIntersection(lineSegment2);
         LineSegment2D line1 = new LineSegment2D(lineSegment1.getOrigin().getX(), lineSegment1.getOrigin().getY(), lineSegment1.getEndPoint().getX(), lineSegment1.getEndPoint().getY());
         LineSegment2D line2 = new LineSegment2D(lineSegment2.getOrigin().getX(), lineSegment2.getOrigin().getY(), lineSegment2.getEndPoint().getX(), lineSegment2.getEndPoint().getY());
         return intersects(line1, line2);
     }
-
+    //对线段进行比较
     public static boolean intersects(LineSegment2D lineSegment1, LineSegment2D lineSegment2) {
         return LineSegment2D.intersects(lineSegment1, lineSegment2);
     }
 
 
-    public static List<Integer> fetchIdValueFormElements(Collection<StandardEntity> elements) {
+    public static List<Integer> fetchIdValueFormElements(Collection<StandardEntity> elements) {//从标准化实体中得到id列表
         return elements.stream().map(entity -> entity.getID().getValue()).collect(Collectors.toList());
     }
 
-    public static List<Integer> fetchIdValueFormElementIds(Collection<EntityID> elementEntityIDs) {
+    public static List<Integer> fetchIdValueFormElementIds(Collection<EntityID> elementEntityIDs) {//从实体id中获取id列表
         return elementEntityIDs.stream().map(EntityID::getValue).collect(Collectors.toList());
     }
-
+    //查找最近的距离
     public static double findDistanceToNearest(MrlWorldHelper world, Collection<StandardEntity> entities, Point targetPoint) {
         double minDistance = Double.MAX_VALUE;
         for (StandardEntity next : entities) {

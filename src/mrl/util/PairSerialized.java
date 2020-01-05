@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Date: 3/25/11
  * Time: 3:47 PM
  */
-public class PairSerialized<S, T> implements Serializable {
+public class PairSerialized<S, T> implements Serializable {//对的序列化
     static final long serialVersionUID = -198713768237652370L;
     private S first;
     private T second;

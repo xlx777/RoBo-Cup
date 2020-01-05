@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Time: 7:46 PM
  */
 public class MrlRay implements Serializable {
-    static final long serialVersionUID = -198713768239652370L;
+    static final long serialVersionUID = -198713768239652370L;//序列号
     private PairSerialized<PairSerialized<Double, Double>, PairSerialized<Double, Double>> ray;
 
     public MrlRay(Line2D ray) {

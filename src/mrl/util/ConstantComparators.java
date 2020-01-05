@@ -17,7 +17,7 @@ import java.util.Comparator;
  * Date: May 6, 2010
  * Time: 7:05:42 PM
  */
-public class ConstantComparators {
+public class ConstantComparators {//常量比较器
 
 //    public static java.util.Comparator<FireCluster> FIRE_CLUSTER_VALUE_COMPARATOR = new java.util.Comparator<FireCluster>() {
 //        public int compare(FireCluster f1, FireCluster f2) {
@@ -29,9 +29,11 @@ public class ConstantComparators {
 //            return -1;
 //        }
 //    };
-
-
-    public static Comparator<StandardEntity> ID_COMPARATOR = new Comparator<StandardEntity>() {
+//   ID_COMPARATOR比较标准化实体的id大小   EntityID_COMPARATOR比较实体id的大小  PATH_ID_COMPARATOR比较path的id大小
+//   VALUE_COMPARATOR比较integer（大到小） FIRE_CLUSTER_VALUE_COMPARATOR比较聚类id BID_VALUE_COMPARATOR比较pair的后面的integer（大到小）
+//  上面的没有用过，但是我们可以使用（还有几个没用过的比较器就不写了）
+//    DISTANCE_VALUE_COMPARATOR比较距离   DISTANCE_VALUE_COMPARATOR_DOUBLE和前面不同在pair的后面的值是Double类型
+    public static Comparator<StandardEntity> ID_COMPARATOR = new Comparator<StandardEntity>() {//匿名内部类 比较器
         public int compare(StandardEntity r1, StandardEntity r2) {
 
             if (r1.getID().getValue() > r2.getID().getValue())
