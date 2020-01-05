@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="adf-core1">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/library/rescue/adf/adf-core.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
