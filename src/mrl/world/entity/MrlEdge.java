@@ -19,22 +19,22 @@ import rescuecore2.worldmodel.EntityID;
  * Date: 5/17/12
  * Time: 8:27 PM
  */
-public class MrlEdge {
+public class MrlEdge {//边缘
 
-    private boolean isPassable;
-    private Line2D line;
-    private Point2D start;
-    private Point2D end;
-    private Point2D middle;
-    private boolean isBlocked;
-    private boolean isAbsolutelyBlocked;
-    private Integer blockedSize;
-    private Edge parent;
-    private Line2D openPart;
-    private Pair<EntityID, EntityID> neighbours;
-    private double length;
-    private boolean tooSmall;
-    MrlWorldHelper worldHelper;
+    private boolean isPassable;//是否可通过
+    private Line2D line;//线
+    private Point2D start;//开始点
+    private Point2D end;//结束点
+    private Point2D middle;//中间点
+    private boolean isBlocked;//是否被封锁
+    private boolean isAbsolutelyBlocked;//是否被绝对封锁
+    private Integer blockedSize;//障碍物的大小
+    private Edge parent;//底层的edge边缘
+    private Line2D openPart;//打开部分
+    private Pair<EntityID, EntityID> neighbours;//周围的
+    private double length;//长度
+    private boolean tooSmall;//是否太小了
+    MrlWorldHelper worldHelper;//
 
     public MrlEdge(MrlWorldHelper worldHelper, Edge edge, EntityID parentID) {
         parent = edge;
@@ -61,7 +61,7 @@ public class MrlEdge {
         return isPassable;
     }
 
-    public boolean isOtherSideBlocked(WorldInfo world) {
+    public boolean isOtherSideBlocked(WorldInfo world) {//被另一面阻挡
         if (isPassable()) {
             MrlEdge mrlEdge = getOtherSideEdge(world);
             if (mrlEdge != null && mrlEdge.isBlocked()) {
@@ -71,7 +71,7 @@ public class MrlEdge {
         return false;
     }
 
-    public MrlEdge getOtherSideEdge(WorldInfo world) {
+    public MrlEdge getOtherSideEdge(WorldInfo world) {//获取其他侧边
         Area neighbour = (Area) world.getEntity(getNeighbours().second());
         if (neighbour instanceof Road) {
             MrlRoad mrlRoadNeighbour = getMrlRoad(neighbour.getID());
@@ -115,7 +115,7 @@ public class MrlEdge {
     }
 
     public void setBlocked(boolean blocked) {
-        if (!blocked) {
+        if (!blocked) {//flase时执行
             setAbsolutelyBlocked(false);
         }
         isBlocked = blocked;

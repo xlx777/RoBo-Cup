@@ -7,15 +7,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="default" level="project" />
-    <orderEntry type="library" name="util" level="project" />
     <orderEntry type="library" name="rescuecore1" level="project" />
-    <orderEntry type="library" name="lib" level="project" />
-    <orderEntry type="library" name="rescuecore" level="project" />
     <orderEntry type="library" name="util1" level="project" />
-    <orderEntry type="library" name="default1" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="default" level="project" />
     <orderEntry type="library" name="uncommons-maths-1.2" level="project" />
-    <orderEntry type="library" name="adf-core1" level="project" />
+    <orderEntry type="library" name="rescuecore" level="project" />
+    <orderEntry type="library" name="util" level="project" />
     <orderEntry type="library" name="adf-core" level="project" />
+    <orderEntry type="library" name="adf-core1" level="project" />
+    <orderEntry type="library" name="default1" level="project" />
   </component>
 </module>

@@ -49,7 +49,7 @@ public class MrlBlockade {//封装的路障类
         blockade = polygon;
     }
 
-    private void setApexPoint() {
+    private void setApexPoint() {//设置顶点
         apexPoints.clear();
 
         int[] apexes = parent.getApexes();
@@ -65,12 +65,12 @@ public class MrlBlockade {//封装的路障类
         computeGroundArea();
     }
 
-    private void computeGroundArea() {
+    private void computeGroundArea() {//计算面积
         double area = GeometryTools2D.computeArea(apexPoints) * MRLConstants.SQ_MM_TO_SQ_M;
         groundArea = (int) Math.abs(area);
     }
 
-    public void createTransformedPolygon(ScreenTransform t) {
+    public void createTransformedPolygon(ScreenTransform t) {//（未使用）
         int xs[] = new int[blockade.npoints];
         int ys[] = new int[blockade.npoints];
         for (int i = 0; i < blockade.npoints; i++) {
@@ -91,7 +91,7 @@ public class MrlBlockade {//封装的路障类
     public Polygon getTransformedPolygon() {
         return transformedPolygon;
     }
-
+    //切割
     public Pair<MrlBlockade, MrlBlockade> split(Line2D lineSegment) {
         Pair<Polygon, Polygon> splitPolygon = Util.split(parent.getApexes(), lineSegment);
         MrlBlockade block1 = new MrlBlockade(position, parent, splitPolygon.first());

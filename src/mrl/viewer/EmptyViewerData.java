@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-public class EmptyViewerData implements IViewerData {
+public class EmptyViewerData implements IViewerData {//空的查看器数据
     @Override
     public void print(String s) {
         System.out.println(s);

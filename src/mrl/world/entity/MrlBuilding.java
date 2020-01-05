@@ -25,51 +25,51 @@ import java.util.List;
  */
 public class MrlBuilding {
     private org.apache.log4j.Logger Logger = org.apache.log4j.Logger.getLogger(MrlBuilding.class);
-    public double BUILDING_VALUE;
-    private boolean probablyOnFire = false;
-    private Building selfBuilding;
-    private List<MrlBuilding> connectedBuilding;
-    private List<Float> connectedValues;
-    private Hashtable connectedBuildingsTable;
-    private List<EntityID> neighbourIdBuildings;
-    private List<EntityID> neighbourFireBuildings;
-    private Collection<Wall> walls;
-    private double totalWallArea;
-    private ArrayList<Wall> allWalls;
-    private List<Entrance> entrances;
-    private Integer zoneId;
-    private double cellCover;
-    private boolean visited = false;
-    private boolean shouldCheckInside;
-    private Set<Civilian> civilians;
-    private boolean isReachable;
-    private boolean visitable;
-    private MrlWorldHelper world;
-    private int lastUpdateTime;
-    private Set<EntityID> civilianPossibly;
-    private double civilianPossibleValue;
-    private List<Polygon> centerVisitShapes;
-    private Map<EntityID, List<Polygon>> centerVisitRoadShapes;
-    private Map<EntityID, List<Point>> centerVisitRoadPoints;
-    private Map<Edge, Pair<Point2D, Point2D>> edgeVisibleCenterPoints;
-    private boolean sensed;
-    private int sensedTime = -1;
-    private Set<EntityID> visibleFrom;
-    private Set<EntityID> observableAreas;
-    private List<MrlRay> lineOfSight;
-    private double advantageRatio;//todo @Mostafam: Describe this
-    private Set<EntityID> extinguishableFromAreas;
-    private List<MrlBuilding> buildingsInExtinguishRange;
-    private int ignitionTime = -1;
+    public double BUILDING_VALUE;//建筑价值
+    private boolean probablyOnFire = false;//是否着火
+    private Building selfBuilding;//本身的建筑
+    private List<MrlBuilding> connectedBuilding;//连接的建筑物
+    private List<Float> connectedValues;//连接建筑的价值（？）
+    private Hashtable connectedBuildingsTable;//连接的建筑物表
+    private List<EntityID> neighbourIdBuildings;//相邻建筑物id
+    private List<EntityID> neighbourFireBuildings;//相邻着火建筑（？）
+    private Collection<Wall> walls;//墙壁
+    private double totalWallArea;//总墙面积
+    private ArrayList<Wall> allWalls;//所有墙？
+    private List<Entrance> entrances;//出入口
+    private Integer zoneId;//区域编号
+    private double cellCover;//？
+    private boolean visited = false;//是否搜寻过
+    private boolean shouldCheckInside;//是否应该检查里面
+    private Set<Civilian> civilians;//平民
+    private boolean isReachable;//是否可以到达
+    private boolean visitable;//可以访问？
+    private MrlWorldHelper world;//
+    private int lastUpdateTime;//最后更新时间
+    private Set<EntityID> civilianPossibly;//平民可能？
+    private double civilianPossibleValue;//救助平民可能的价值
+    private List<Polygon> centerVisitShapes;//访问中心的形状
+    private Map<EntityID, List<Polygon>> centerVisitRoadShapes;//中心访问的道路的形状
+    private Map<EntityID, List<Point>> centerVisitRoadPoints;//中心访问道路的点
+    private Map<Edge, Pair<Point2D, Point2D>> edgeVisibleCenterPoints;//边缘可见中心点
+    private boolean sensed;//是否可被感觉到
+    private int sensedTime = -1;//感测到的时间
+    private Set<EntityID> visibleFrom;//可见于
+    private Set<EntityID> observableAreas;//可观察的区域
+    private List<MrlRay> lineOfSight;//视线
+    private double advantageRatio;//todo @Mostafam: Describe this  优势比率
+    private Set<EntityID> extinguishableFromAreas;//可从区域扑灭
+    private List<MrlBuilding> buildingsInExtinguishRange;//灭火范围内的建筑物
+    private int ignitionTime = -1;//点火时间
 
-    protected int totalHits;
+    protected int totalHits;//总？？
     protected int totalRays;
     private double hitRate = 0;
 //    private int cellX;
 //    private int cellY;
 
     //    protected List<EntityID> buildingNeighbours = new ArrayList<EntityID>();
-    private MrlWorldHelper worldHelper;
+    private MrlWorldHelper worldHelper;//世界信息读取
     protected WorldInfo worldInfo;
     protected AgentInfo agentInfo;
     protected ScenarioInfo scenarioInfo;
@@ -115,7 +115,7 @@ public class MrlBuilding {
         allWalls.clear();
     }
 
-    public void initWalls(MrlWorldHelper world) {
+    public void initWalls(MrlWorldHelper world) {//初始化墙
 
         int fx = selfBuilding.getApexList()[0];
         int fy = selfBuilding.getApexList()[1];
@@ -258,7 +258,7 @@ public class MrlBuilding {
         return getEstimatedFieryness() > 0 && getEstimatedFieryness() < 4;
     }
 
-    public double getBuildingRadiation() {
+    public double getBuildingRadiation() {//获得建筑辐射
         double value = 0;
 //        double totalArea = 0;
         MrlBuilding b;
@@ -273,7 +273,7 @@ public class MrlBuilding {
         return value * getEstimatedTemperature() / 1000;
     }
 
-    public double getNeighbourRadiation() {
+    public double getNeighbourRadiation() {//获得周围建筑辐射
         double value = 0;
 //        double totalArea = 0;
         MrlBuilding b;
@@ -291,7 +291,7 @@ public class MrlBuilding {
         return value / 10000;
     }
 
-    public boolean isOneEntranceOpen(MrlWorldHelper world) {
+    public boolean isOneEntranceOpen(MrlWorldHelper world) {//是否是一个开放的入口
         RoadHelper roadHelper = world.getHelper(RoadHelper.class);
 //        Building building = world.getEntity(getID(), Building.class);
 //        for (EntityID nID : building.getNeighboursByEdge()) {
@@ -318,34 +318,34 @@ public class MrlBuilding {
         return false;
     }
 
-    ///////////////////////////////////FIRE SIMULATOR PROPERTIES////////////////////////////////////
-    static final int FLOOR_HEIGHT = 3;
-    static float RADIATION_COEFFICIENT = 0.011f;
-    static final double STEFAN_BOLTZMANN_CONSTANT = 0.000000056704;
+    ///////////////////////////////////FIRE SIMULATOR PROPERTIES////////////////////////////////////火灾模拟器属性
+    static final int FLOOR_HEIGHT = 3;//楼层
+    static float RADIATION_COEFFICIENT = 0.011f;//辐射系数
+    static final double STEFAN_BOLTZMANN_CONSTANT = 0.000000056704;//斯蒂芬·博茨曼常数
 
     private int startTime = -1;
-    private float fuel;
-    private float initFuel = -1;
-    private float volume;
-    private double energy;
-    private float prevBurned;
-    private float capacity;
-    private int waterQuantity;
-    private boolean wasEverWatered = false;
-    private boolean flammable = true;
+    private float fuel;//汽油量
+    private float initFuel = -1;//初始燃料
+    private float volume;//体积
+    private double energy;//能源
+    private float prevBurned;//上一个已烧？ 预先着火值
+    private float capacity;//容量
+    private int waterQuantity;//水量
+    private boolean wasEverWatered = false;//是否曾经浇水
+    private boolean flammable = true;//易燃的
 
-    public static float woodIgnition = 47;
-    public static float steelIgnition = 47;
-    public static float concreteIgnition = 47;
-    public static float woodCapacity = 1.1f;
-    public static float steelCapacity = 1.0f;
-    public static float concreteCapacity = 1.5f;
-    public static float woodEnergy = 2400;
-    public static float steelEnergy = 800;
-    public static float concreteEnergy = 350;
+    public static float woodIgnition = 47;//木材着火点
+    public static float steelIgnition = 47;//钢着火点
+    public static float concreteIgnition = 47;//混凝土着火点
+    public static float woodCapacity = 1.1f;//木材热容量
+    public static float steelCapacity = 1.0f;//钢热容量
+    public static float concreteCapacity = 1.5f;//混泥土热容量
+    public static float woodEnergy = 2400;//木材能源
+    public static float steelEnergy = 800;//钢铁能源
+    public static float concreteEnergy = 350;//混泥土能源
 
-    public void initSimulatorValues() {
-        volume = selfBuilding.getGroundArea() * selfBuilding.getFloors() * FLOOR_HEIGHT;
+    public void initSimulatorValues() {//初始化模拟器值
+        volume = selfBuilding.getGroundArea() * selfBuilding.getFloors() * FLOOR_HEIGHT;//体积
         fuel = getInitialFuel();
         capacity = (volume * getThermoCapacity());
         energy = 0;
@@ -360,7 +360,7 @@ public class MrlBuilding {
         return initFuel;
     }
 
-    private float getThermoCapacity() {
+    private float getThermoCapacity() {//获得热容量
         switch (selfBuilding.getBuildingCode()) {
             case 0:
                 return woodCapacity;
@@ -371,7 +371,7 @@ public class MrlBuilding {
         }
     }
 
-    private float getFuelDensity() {
+    private float getFuelDensity() {//获得燃料能量密度
         switch (selfBuilding.getBuildingCode()) {
             case 0:
                 return woodEnergy;
@@ -382,7 +382,7 @@ public class MrlBuilding {
         }
     }
 
-    public float getIgnitionPoint() {
+    public float getIgnitionPoint() {//得到点火点
         switch (selfBuilding.getBuildingCode()) {
             case 0:
                 return woodIgnition;
@@ -393,7 +393,7 @@ public class MrlBuilding {
         }
     }
 
-    public float getConsume(double bRate) {
+    public float getConsume(double bRate) {//得到消费
         if (fuel == 0) {
             return 0;
         }
@@ -405,7 +405,7 @@ public class MrlBuilding {
         return getInitialFuel() * f;
     }
 
-    public double getEstimatedTemperature() {
+    public double getEstimatedTemperature() {//得到估计温度
         double rv = energy / capacity;
         if (Double.isNaN(rv)) {
 //            new RuntimeException().printStackTrace();
@@ -416,32 +416,32 @@ public class MrlBuilding {
         return rv;
     }
 
-    public int getEstimatedFieryness() {
+    public int getEstimatedFieryness() {//获得估计的炽热？ 火焰等级
         if (!isFlammable())
             return 0;
-        if (getEstimatedTemperature() >= getIgnitionPoint()) {
+        if (getEstimatedTemperature() >= getIgnitionPoint()) {//得到估计温度大于着火点
             if (fuel >= getInitialFuel() * 0.66)
-                return 1;   // burning, slightly damaged
+                return 1;   // burning, slightly damaged  燃烧，轻微损坏
             if (fuel >= getInitialFuel() * 0.33)
-                return 2;   // burning, more damaged
+                return 2;   // burning, more damaged   燃烧，更损坏
             if (fuel > 0)
-                return 3;    // burning, severly damaged
+                return 3;    // burning, severly damaged   燃烧，严重损坏
         }
         if (fuel == getInitialFuel())
             if (wasEverWatered)
-                return 4;   // not burnt, but watered-damaged
+                return 4;   // not burnt, but watered-damaged  不燃烧，但浇水损坏
             else
                 return 0;   // not burnt, no water damage
         if (fuel >= getInitialFuel() * 0.66)
-            return 5;        // extinguished, slightly damaged
+            return 5;        // extinguished, slightly damaged  熄灭，轻微损坏
         if (fuel >= getInitialFuel() * 0.33)
-            return 6;        // extinguished, more damaged
+            return 6;        // extinguished, more damaged  熄灭，更损坏
         if (fuel > 0)
-            return 7;        // extinguished, severely damaged
-        return 8;           // completely burnt down
+            return 7;        // extinguished, severely damaged   熄灭，严重损坏
+        return 8;           // completely burnt down   完全烧毁
     }
 
-    public double getRadiationEnergy() {
+    public double getRadiationEnergy() {//获得辐射能
         double t = getEstimatedTemperature() + 293; // Assume ambient temperature is 293 Kelvin.
         double radEn = (t * t * t * t) * totalWallArea * RADIATION_COEFFICIENT * STEFAN_BOLTZMANN_CONSTANT;
         if (radEn == Double.NaN || radEn == Double.POSITIVE_INFINITY || radEn == Double.NEGATIVE_INFINITY)
@@ -452,7 +452,7 @@ public class MrlBuilding {
         return radEn;
     }
 
-    public void resetOldReachable(int resetTime) {
+    public void resetOldReachable(int resetTime) {//重置旧的可到达
         if (agentInfo.getTime() - lastUpdateTime > resetTime) {
             setReachable(true);
             setVisitable(true);
@@ -557,6 +557,7 @@ public class MrlBuilding {
     /**
      * find two point around center that is parallel with passable edges of this building with AGENT_SIZE range.
      */
+    //在中心周围找到两个点，该点与该建筑物的可通过边缘相平行（AGENT_SIZE范围）。
     private void setEdgeVisibleCenterPoints() {
         Pair<Integer, Integer> location = worldInfo.getLocation(selfBuilding.getID());
         Point2D center = new Point2D(location.first(), location.second());
@@ -648,7 +649,7 @@ public class MrlBuilding {
         return isReachable;
     }
 
-    public void setReachable(boolean reachable) {
+    public void setReachable(boolean reachable) {//设置可达
         lastUpdateTime = agentInfo.getTime();
         isReachable = reachable;
 //        MrlPersonalData.VIEWER_DATA.setBlockedBuildings(world.getPlatoonAgent(), getID(), reachable);
@@ -672,7 +673,7 @@ public class MrlBuilding {
 
     /**
      * A set of containing civilians
-     *
+     *一组平民
      * @return set of civilians
      */
     public Set<Civilian> getCivilians() {
@@ -755,7 +756,7 @@ public class MrlBuilding {
         }
     }
 
-    public void updateValues(Building building) {
+    public void updateValues(Building building) {//更新值
         switch (building.getFieryness()) {
             case 0:
                 this.setFuel(this.getInitialFuel());

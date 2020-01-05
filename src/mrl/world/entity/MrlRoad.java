@@ -31,40 +31,40 @@ import java.util.List;
  */
 public class MrlRoad {
 
-    private Map<EntityID, List<Polygon>> buildingVisitableParts;
-    private Map<MrlEdge, HashSet<MrlEdge>> reachableEdges;
-    private Set<MrlBlockade> veryImportantBlockades;
-    private Set<MrlBlockade> importantBlockades;
-    private List<MrlBlockade> mrlBlockades;
-    private List<MrlEdge> passableMrlEdges;
-    private Set<MrlEdge> blockedEdges;
-    private Polygon transformedPolygon;
-    private HashSet<MrlEdge> openEdges;
-    private List<Point2D> apexPoints;
-    private List<MrlRoad> childRoads;
-    private List<MrlEdge> mrlEdges;
-    private Set<MrlBlockade> farNeighbourBlockades;
-    private boolean isReachable;
-    private int totalRepairCost;
-    private boolean isPassable;
-    private int lastSeenTime;
-    private int lastUpdateTime;
-    private int lastResetTime;
-    private List<Edge> edges;
-    private List<Path> paths;
+    private Map<EntityID, List<Polygon>> buildingVisitableParts;//建筑可访问部分？
+    private Map<MrlEdge, HashSet<MrlEdge>> reachableEdges;//可达的边缘
+    private Set<MrlBlockade> veryImportantBlockades;//非常重要的障碍
+    private Set<MrlBlockade> importantBlockades;//重要的障碍
+    private List<MrlBlockade> mrlBlockades;//障碍
+    private List<MrlEdge> passableMrlEdges;//是否是可通行的边
+    private Set<MrlEdge> blockedEdges;//障碍的边
+    private Polygon transformedPolygon;//变形多边形
+    private HashSet<MrlEdge> openEdges;//开放的边缘
+    private List<Point2D> apexPoints;//顶点
+    private List<MrlRoad> childRoads;//子路
+    private List<MrlEdge> mrlEdges;//边缘
+    private Set<MrlBlockade> farNeighbourBlockades;//远邻障碍
+    private boolean isReachable;//是否可以到达
+    private int totalRepairCost;//总清理消耗
+    private boolean isPassable;//是否课通行？
+    private int lastSeenTime;//上次查看时间
+    private int lastUpdateTime;//最后更新时间
+    private int lastResetTime;//上次重置时间
+    private List<Edge> edges;//边缘
+    private List<Path> paths;//路径
 
-    private Polygon polygon;
-    private int groundArea;
-    private boolean highway;
-    private boolean freeway;
+    private Polygon polygon;//多边形
+    private int groundArea;//地面面积
+    private boolean highway;//是否是高速公路？
+    private boolean freeway;//是否
 
-    private boolean isSeen;
-    private int repairTime;
-    private Road parent;
-    private Set<EntityID> visibleFrom;
-    private Set<EntityID> observableAreas;
+    private boolean isSeen;//被看见
+    private int repairTime;//清理时间
+    private Road parent;//底层的道路类
+    private Set<EntityID> visibleFrom;//可见于
+    private Set<EntityID> observableAreas;//可观察区域
     //    private RoadHelper roadHelper;
-    private List<MrlBuilding> buildingsInExtinguishRange;
+    private List<MrlBuilding> buildingsInExtinguishRange;//灭火范围内的建筑物
 
 
     private WorldInfo worldInfo;

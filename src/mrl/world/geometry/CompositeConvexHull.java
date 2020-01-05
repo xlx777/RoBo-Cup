@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @version 1.0
  */
-public class CompositeConvexHull implements IConvexHull {
+public class CompositeConvexHull implements IConvexHull {//复合凸包
 
     /**
      * Note: We keep points in a List because the underlying algorithm requires sorting the input

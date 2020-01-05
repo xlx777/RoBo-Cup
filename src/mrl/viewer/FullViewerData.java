@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * Created by Rescue Agent on 6/20/14.
  */
-public class FullViewerData implements IViewerData {
+public class FullViewerData implements IViewerData {//完整的查看者数据
 
     @Override
     public void print(String s) {
@@ -80,7 +80,7 @@ public class FullViewerData implements IViewerData {
 
 
     @Override
-    public void drawBuildingDetectorTarget(WorldInfo worldInfo, EntityID agentID, EntityID target) {
+    public void drawBuildingDetectorTarget(WorldInfo worldInfo, EntityID agentID, EntityID target) {//未被使用
         if (target != null) {
             Pair<Integer, Integer> l1 = worldInfo.getLocation(agentID);
             Pair<Integer, Integer> l2 = worldInfo.getLocation(target);

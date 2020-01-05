@@ -10,7 +10,7 @@ import java.util.Comparator;
  * Date: 2/13/13
  * Time: 6:20 PM
  */
-public class IntersectionSorter implements Comparator<Pair<LineInfo, Double>>, java.io.Serializable {
+public class IntersectionSorter implements Comparator<Pair<LineInfo, Double>>, java.io.Serializable {//
     @Override
     public int compare(Pair<LineInfo, Double> a, Pair<LineInfo, Double> b) {
         double d1 = a.second();

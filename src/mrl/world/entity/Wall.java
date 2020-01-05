@@ -17,15 +17,15 @@ import java.util.Random;
 /**
  * @author tn
  */
-public class Wall {
+public class Wall {//墙壁
     public static Random rnd = new Random(23);
-    public static final int MAX_SAMPLE_DISTANCE = 200000;//50000;
-    public static final int MAX_FIRE_DISTANCE = 25000;
+    public static final int MAX_SAMPLE_DISTANCE = 200000;//50000;  最大样品距离
+    public static final int MAX_FIRE_DISTANCE = 25000;   //最大防火的安全距离
     public int x1;
     public int y1;
     public int x2;
     public int y2;
-    public MrlBuilding owner;
+    public MrlBuilding owner;//墙壁的拥有建筑
     public int rays;
     public int hits;
     public int selfHits;
