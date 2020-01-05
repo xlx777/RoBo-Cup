@@ -27,3 +27,4 @@ build/
 *.log
 logs/
 /bin/
+.vscode/
