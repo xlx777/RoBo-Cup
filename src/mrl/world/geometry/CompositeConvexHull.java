@@ -11,30 +11,34 @@ import java.util.List;
 
 /**
  * Implementation of Convex Hull using Graham Scan, Jarvis March and On-line CH algorithm.
+ * 使用Graham Scan，Jarvis March和On-line CH算法实现凸包
  * <p/>
  * This class is in conformance with late-computation technique. Whenever {@link #getConvexPolygon()} is called, the actual convex hull
  * is created and kept until addition or removal of a point (possibly) invalidates it.
- *
+ *这个类适用用于后期计算，一旦被调用会将创建并保留实际的凸包*，直到添加或移除点（可能）使该点无效为止。
  * @version 1.0
  */
 public class CompositeConvexHull implements IConvexHull {//复合凸包
 
     /**
      * Note: We keep points in a List because the underlying algorithm requires sorting the input
+     * 我们将点保留在列表中，因为基础算法需要对输入进行排序
      */
     private List<Point> points;
 
     /**
+     * 临时存储已添加但尚未计算的点
      * Temporary storage for points which are added but not yet taken into account for calculation
      */
     private Set<Point> addedPoints;
 
     /**
+     * 临时存储已删除但尚未计算的点
      * Temporary storage for points which are removed but not yet taken into account for calculation
      */
     private Set<Point> removedPoints;
 
-    /**
+    /**缓存的凸包多边形
      * Cached convex hull polygon. In this implementation it's updated whenever {@link #getConvexPolygon()} is called and {@link #isDataUpdated()} returns true.
      */
     private Polygon convexHullPolygon;
@@ -42,6 +46,7 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
     //TODO @BrainX Make sure the delegate algorithm is efficient.
     /**
      * Delegate algorithm
+     * 分派算法
      */
     private JarvisMarch2D jarvisMarchCalculator;
 
@@ -68,14 +73,14 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
         return guid;
     }
 
-    /**
+    /**据内部点数据获取或计算输出凸包。
      * Gets or calculates the output Convex hull based on internal point data. If dataUpdated flag is set, calculation is
      * performed, otherwise the cahced {@link #convexHullPolygon} is returned.
      *
      * @return A Polygon object representing the convex hull
      */
     @Override
-    public Polygon getConvexPolygon() {
+    public Polygon getConvexPolygon() {//获取凸多边形
         if (isDataUpdated()) {
             convexHullPolygon = updateConvexPolygon();
         }
@@ -84,7 +89,7 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
 
     /**
      * Takes {@link #convexHullPolygon} as initial state and updates it with the newly-altered points
-     *
+     *作为初始状态，并使用新更改的点进行更新
      * @return The updated convex polygon
      */
     public Polygon updateConvexPolygon() {
@@ -92,7 +97,7 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
         if (convexHullPolygon != null) {
             Set<Point> onVerticesRemovedPoints = new HashSet<Point>();
             for (Point removedPoint : removedPoints) {
-                for (int i = 0; i < convexHullPolygon.npoints; i++) {
+                for (int i = 0; i < convexHullPolygon.npoints; i++) {//凸包多边形的点
                     if (removedPoint.x == convexHullPolygon.xpoints[i]
                             && removedPoint.y == convexHullPolygon.ypoints[i]) {
                         onVerticesRemovedPoints.add(removedPoint);
@@ -103,20 +108,20 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
 
             removedPoints.removeAll(onVerticesRemovedPoints);
             points.removeAll(removedPoints);
-            removedPoints = onVerticesRemovedPoints;
+                        removedPoints = onVerticesRemovedPoints;
 
-            Set<Point> onVerticesAddedPoints = new HashSet<Point>();
-            Set<Point> outerAddedPoints = new HashSet<Point>();
-            Set<Point> innerAddedPoints = new HashSet<Point>();
+                        Set<Point> onVerticesAddedPoints = new HashSet<Point>();//在图形上的添加点
+                        Set<Point> outerAddedPoints = new HashSet<Point>();//内部
+                        Set<Point> innerAddedPoints = new HashSet<Point>();//外部
 
-            for (Point addedPoint : addedPoints) {
-                for (int i = 0; i < convexHullPolygon.npoints; i++) {
-                    if (addedPoint.x == convexHullPolygon.xpoints[i]
-                            && addedPoint.y == convexHullPolygon.ypoints[i]) {
-                        onVerticesAddedPoints.add(addedPoint);
-                    } else if (convexHullPolygon.contains(addedPoint)) {
-                        innerAddedPoints.add(addedPoint);
-                    } else {
+                        for (Point addedPoint : addedPoints) {
+                            for (int i = 0; i < convexHullPolygon.npoints; i++) {
+                                if (addedPoint.x == convexHullPolygon.xpoints[i]
+                                        && addedPoint.y == convexHullPolygon.ypoints[i]) {
+                                    onVerticesAddedPoints.add(addedPoint);
+                                } else if (convexHullPolygon.contains(addedPoint)) {
+                                    innerAddedPoints.add(addedPoint);
+                                } else {
                         outerAddedPoints.add(addedPoint);
                     }
                 }
@@ -155,12 +160,12 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
 
     /**
      * Adds the specified points to the convex hull without using the delegate.
-     *
+     * 不使用分配将指定的点添加到凸包。
      * @param addedPoints Points to be added to the convex hull
      */
-    private void addPointsToConvexHull(Set<Point> addedPoints) {
+    private void addPointsToConvexHull(Set<Point> addedPoints) {//将点添加到凸包
         for (Point addedPoint : addedPoints) {
-            Point centroid = new Point();
+            Point centroid = new Point();//重心
             for (int i = 0; i < convexHullPolygon.npoints; i++) {
                 centroid.x += convexHullPolygon.xpoints[i];
                 centroid.y += convexHullPolygon.ypoints[i];
@@ -170,11 +175,11 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
 
 
             Line2D anchor = new Line2D(centroid.x, centroid.y, addedPoint.x, addedPoint.y);
-            double anchorAngle = anchor.getHorizontalAngle();
+            double anchorAngle = anchor.getHorizontalAngle();//获取水平角度
 
             double minAngle = 2 * Math.PI;
             double maxAngle = -2 * Math.PI;
-            int minAngleVertexIndex = -1;
+            int minAngleVertexIndex = -1;//最小角度顶点索引
             int maxAngleVertexIndex = -1;
             for (int i = 0; i < convexHullPolygon.npoints; i++) {
                 double angle = anchorAngle - new Line2D(convexHullPolygon.xpoints[i], convexHullPolygon.ypoints[i], addedPoint.x, addedPoint.y).getHorizontalAngle();
@@ -201,35 +206,35 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
                 }
             }
 
-            int[] xpoints = new int[convexHullPolygon.npoints + 2 - Math.abs(maxAngleVertexIndex - minAngleVertexIndex)];
-            int[] ypoints = new int[convexHullPolygon.npoints + 2 - Math.abs(maxAngleVertexIndex - minAngleVertexIndex)];
+                int[] xpoints = new int[convexHullPolygon.npoints + 2 - Math.abs(maxAngleVertexIndex - minAngleVertexIndex)];
+                int[] ypoints = new int[convexHullPolygon.npoints + 2 - Math.abs(maxAngleVertexIndex - minAngleVertexIndex)];
 
-            int newPointsIndex = 0;
+                int newPointsIndex = 0;
 
-            points.clear();
+                points.clear();
 
-            for (int i = 0; i <= Math.min(minAngleVertexIndex, maxAngleVertexIndex); i++) {
-                xpoints[newPointsIndex] = convexHullPolygon.xpoints[i];
-                ypoints[newPointsIndex] = convexHullPolygon.ypoints[i];
+                for (int i = 0; i <= Math.min(minAngleVertexIndex, maxAngleVertexIndex); i++) {
+                    xpoints[newPointsIndex] = convexHullPolygon.xpoints[i];
+                    ypoints[newPointsIndex] = convexHullPolygon.ypoints[i];
+                    points.add(new Point(xpoints[newPointsIndex], ypoints[newPointsIndex]));
+                    newPointsIndex++;
+                }
+
+                xpoints[newPointsIndex] = addedPoint.x;
+                ypoints[newPointsIndex] = addedPoint.y;
                 points.add(new Point(xpoints[newPointsIndex], ypoints[newPointsIndex]));
                 newPointsIndex++;
-            }
 
-            xpoints[newPointsIndex] = addedPoint.x;
-            ypoints[newPointsIndex] = addedPoint.y;
-            points.add(new Point(xpoints[newPointsIndex], ypoints[newPointsIndex]));
-            newPointsIndex++;
+                for (int i = Math.max(minAngleVertexIndex, maxAngleVertexIndex);
+                     i < convexHullPolygon.npoints;
+                     i++) {
+                    xpoints[newPointsIndex] = convexHullPolygon.xpoints[i];
+                    ypoints[newPointsIndex] = convexHullPolygon.ypoints[i];
+                    points.add(new Point(xpoints[newPointsIndex], ypoints[newPointsIndex]));
+                    newPointsIndex++;
+                }
 
-            for (int i = Math.max(minAngleVertexIndex, maxAngleVertexIndex);
-                 i < convexHullPolygon.npoints;
-                 i++) {
-                xpoints[newPointsIndex] = convexHullPolygon.xpoints[i];
-                ypoints[newPointsIndex] = convexHullPolygon.ypoints[i];
-                points.add(new Point(xpoints[newPointsIndex], ypoints[newPointsIndex]));
-                newPointsIndex++;
-            }
-
-            convexHullPolygon = new Polygon(xpoints, ypoints, newPointsIndex);
+                convexHullPolygon = new Polygon(xpoints, ypoints, newPointsIndex);
         }
     }
 
@@ -291,8 +296,8 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
     private boolean isDataUpdated() {
         return !addedPoints.isEmpty() || !removedPoints.isEmpty();
     }
-
-    //TODO @BrainX Optimize this method whenever it's used.
+    //数据是否更新
+    //TODO @BrainX Optimize this method whenever it's used.  每次使用时都要优化此方法
 
     /**
      * Simply delegates to {@link #addPoint(Point)} and {@link #removePoint(Point)}.
@@ -301,7 +306,7 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
      * @param removedPoints Coordinates of the removed points
      */
     @Override
-    public void updatePoints(Collection<Point> addedPoints, Collection<Point> removedPoints) {
+    public void updatePoints(Collection<Point> addedPoints, Collection<Point> removedPoints) {//更新点
         if (addedPoints != null) {
             for (Point addedPoint : addedPoints) {
                 addPoint(addedPoint);
@@ -335,7 +340,7 @@ public class CompositeConvexHull implements IConvexHull {//复合凸包
      * @param polygon2d Polygon2D to be converted
      * @return Converted polygon
      */
-    private static Polygon convertPolygon2d(Polygon2D polygon2d) {
+    private static Polygon convertPolygon2d(Polygon2D polygon2d) {//转换2d多边形为多边形
         Collection<Point2D> vertices = polygon2d.getVertices();
         int[] xPoints = new int[vertices.size()];
         int[] yPoints = new int[vertices.size()];

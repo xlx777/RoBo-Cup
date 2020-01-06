@@ -14,20 +14,20 @@ import java.util.*;
  * Date: Dec 3, 2010
  * Time: 2:04:46 PM
  */
-public class CivilianInfo {
+public class CivilianInfo {//市民信息
 
     protected MrlWorldHelper world;
-    private final Set<EntityID> possibleBuildings = new FastSet<EntityID>();
-    private List<Pair> heardPositions = new ArrayList<Pair>();
+    private final Set<EntityID> possibleBuildings = new FastSet<EntityID>();//可能存在的建筑物
+    private List<Pair> heardPositions = new ArrayList<Pair>();//听到的位置
     private boolean isFound = false;
-    int voiceRange;
+    int voiceRange;//声音范围
 
     public CivilianInfo(MrlWorldHelper world) {
         this.world = world;
         voiceRange = world.getVoiceRange();
     }
 
-    public void updatePossibleBuilding() {
+    public void updatePossibleBuilding() {//沒有使用
         if (isFound) {
             return;
         }
@@ -37,8 +37,8 @@ public class CivilianInfo {
             if (possibleBuildings.isEmpty()) {
                 possibleBuildings.addAll(getGuessedBuildings(pair));
             } else {
-                ArrayList<EntityID> toRemove = new ArrayList<EntityID>();
-                possibleList.addAll(getGuessedBuildings(pair));
+                ArrayList<EntityID> toRemove = new ArrayList<EntityID>();//去除
+                possibleList.addAll(getGuessedBuildings(pair));//获取猜测的建筑物
                 for (EntityID building : possibleBuildings) {
                     if (!possibleList.contains(building) && world.getVisitedBuildings().contains(building)) {
                         toRemove.add(building);
@@ -59,7 +59,7 @@ public class CivilianInfo {
         } else {
             ArrayList<EntityID> toRemove = new ArrayList<EntityID>();
             for (EntityID building : possibleBuildings) {
-                if (!possibleList.contains(building) && world.getVisitedBuildings().contains(building)) {
+                if (!possibleList.contains(building) && world.getVisitedBuildings().contains(building)) {//搜寻过的建筑物
                     toRemove.add(building);
                 }
             }
@@ -68,7 +68,7 @@ public class CivilianInfo {
         heardPositions.clear();
     }
 
-    private ArrayList<EntityID> getGuessedBuildings(Pair pair) {
+    private ArrayList<EntityID> getGuessedBuildings(Pair pair) {//获取猜测可能有人的建筑物
         ArrayList<EntityID> builds = new ArrayList<EntityID>();
         Collection<StandardEntity> ens = world.getObjectsInRange((Integer) pair.first(), (Integer) pair.second(), (int) (voiceRange * 1.3));
         for (StandardEntity entity : ens) {
@@ -81,7 +81,7 @@ public class CivilianInfo {
 
     public List<Pair> getHeardPositions() {
         return heardPositions;
-    }
+    }//得到听到位置
 
     public Set<EntityID> getPossibleBuildings() {
         return possibleBuildings;

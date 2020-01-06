@@ -13,19 +13,19 @@ import java.util.logging.Logger;
  * @author julien Gaffuri
  *
  */
-public class SmallestSurroundingRectangle {
+public class SmallestSurroundingRectangle {//最小包围矩形
 	public static Logger logger = Logger.getLogger(SmallestSurroundingRectangle.class.getName());
 
 	public static Polygon get(Geometry geom){
 		return get(geom, geom.getFactory());
 	}
 
-	public static Polygon get(Geometry geom, GeometryFactory gf){
+	public static Polygon get(Geometry geom, GeometryFactory gf){//获得警察清理图像？
 		Geometry hull_ = (new ConvexHull(geom)).getConvexHull();
 		if (!(hull_ instanceof Polygon)) return null;
 		Polygon convHull = (Polygon)hull_;
 
-		Coordinate c = geom.getCentroid().getCoordinate();
+		Coordinate c = geom.getCentroid().getCoordinate();//获取质心
 		Coordinate[] coords = convHull.getExteriorRing().getCoordinates();
 
 		double minArea = Double.MAX_VALUE, minAngle = 0.0;
@@ -59,7 +59,8 @@ public class SmallestSurroundingRectangle {
 		double fin = out.getArea();
 
 		if(fin == 0) {
-			logger.warning("Failed to preserve size of smallest surrounding rectangle: Null final area.");
+			logger.warning("Failed to preserve size of smallest surrounding rectangle: Null final area.");//
+			//无法保留周围最小矩形的大小：最终区域为空
 			return out;
 		}
 

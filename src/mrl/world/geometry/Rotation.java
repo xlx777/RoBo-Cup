@@ -12,17 +12,17 @@ import java.util.logging.Logger;
  * @author julien Gaffuri
  *
  */
-public class Rotation {
+public class Rotation {//旋转
 	private static Logger logger = Logger.getLogger(Rotation.class.getName());
 
-	public static Coordinate get(Coordinate c, Coordinate center, double angle){
+	public static Coordinate get(Coordinate c, Coordinate center, double angle){//返回旋转后的坐标
 		double cos = Math.cos(angle), sin = Math.sin(angle);
 		double x = c.x, y = c.y;
 		double xc = center.x, yc = center.y;
 		return new Coordinate(xc+cos*(x-xc)-sin*(y-yc), yc+sin*(x-xc)+cos*(y-yc));
 	}
 
-	public static Coordinate[] get(Coordinate[] coord, Coordinate center, double angle){
+	public static Coordinate[] get(Coordinate[] coord, Coordinate center, double angle){//旋转系列点
 		Coordinate[] coord_= new Coordinate[coord.length];
 		double cos = Math.cos(angle), sin = Math.sin(angle);
 		double xc = center.x, yc = center.y;
@@ -38,19 +38,19 @@ public class Rotation {
 	}
 
 
-	public static Point get(Point geom, Coordinate center, double angle, GeometryFactory gf) {
+	public static Point get(Point geom, Coordinate center, double angle, GeometryFactory gf) {//得到旋转的点
 		return gf.createPoint( get(geom.getCoordinate(), center, angle) );
 	}
 
-	public static LineString get(LineString ls, Coordinate center, double angle, GeometryFactory gf) {
+	public static LineString get(LineString ls, Coordinate center, double angle, GeometryFactory gf) {//得到旋转的连线
 		return gf.createLineString(get(ls.getCoordinates(), center, angle));
 	}
 
-	public static LinearRing get(LinearRing lr, Coordinate center, double angle, GeometryFactory gf) {
+	public static LinearRing get(LinearRing lr, Coordinate center, double angle, GeometryFactory gf) {//得到旋转的圆
 		return gf.createLinearRing(get(lr.getCoordinates(), center, angle));
 	}
 
-	public static Polygon get(Polygon geom, Coordinate c, double angle, GeometryFactory gf) {
+	public static Polygon get(Polygon geom, Coordinate c, double angle, GeometryFactory gf) {//得到旋转的多边形
 		LinearRing lr = get((LinearRing)geom.getExteriorRing(), c, angle, gf);
 		LinearRing[] lr_ = new LinearRing[geom.getNumInteriorRing()];
 		for(int j=0; j<geom.getNumInteriorRing(); j++) lr_[j] = get((LinearRing)geom.getInteriorRingN(j), c, angle, gf);

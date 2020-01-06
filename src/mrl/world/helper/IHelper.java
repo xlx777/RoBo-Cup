@@ -6,7 +6,7 @@ package mrl.world.helper;
  * Time: 10:35:40 AM
  */
 public interface IHelper {
-    public void init();
+    public void init();//初始化
 
-    public void update();
+    public void update();//更新
 }

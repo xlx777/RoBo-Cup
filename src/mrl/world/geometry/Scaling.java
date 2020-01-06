@@ -12,10 +12,10 @@ import java.util.logging.Logger;
  * @author julien Gaffuri
  *
  */
-public class Scaling {
+public class Scaling {//缩放比例
 	private static Logger logger = Logger.getLogger(Scaling.class.getName());
 
-	public static Coordinate[] get(Coordinate[] coord, Coordinate c, double coef){
+	public static Coordinate[] get(Coordinate[] coord, Coordinate c, double coef){//以点c为中心对点进行缩放
 		Coordinate[] coord_= new Coordinate[coord.length];
 		double xc = c.x, yc = c.y;
 		Coordinate ci;
@@ -34,7 +34,7 @@ public class Scaling {
 		return gf.createPoint( new Coordinate(xc+coef*(geom.getX()-xc), yc+coef*(geom.getY()-yc)) );
 	}
 
-	public static LineString get(LineString ls, Coordinate c, double coef, GeometryFactory gf) {
+	public static LineString get(LineString ls, Coordinate c, double coef, GeometryFactory gf) {//对线进行缩放
 		return gf.createLineString(get(ls.getCoordinates(), c, coef));
 	}
 
